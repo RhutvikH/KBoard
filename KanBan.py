@@ -28,3 +28,28 @@ class Task:
             self.time_finished = time.time()
             self.time_taken = self.time_finished - self.time_started
     
+class KBoard:
+    def __init__(self, id, Project_name, created_by):
+        self.id = id
+        self.Project_name = Project_name
+        self.created_by = created_by
+        self.used_task_ids=set()
+        self.tasks = []
+    def add_new_task(self, id, title, priority, description, status, assignee, reporter):
+        id = 1
+        while id in self.used_task_ids:
+            id += 1
+        self.used_task_ids.add(id)
+        new_task = Task(id, title, priority, description, status, assignee, reporter)
+        self.tasks.append(new_task)
+        print("\nTask added successfully\n")
+        return new_task
+
+    def delete_task(self, task_id):
+        for task in self.tasks:
+            if task.id == task_id:
+                self.tasks.remove(task)
+                self.used_task_ids.remove(task_id)
+                print("\nTask deleted successfully\n")
+                return
+        print("\nTask not found\n")
